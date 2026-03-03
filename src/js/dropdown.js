@@ -17,7 +17,6 @@ import { OtBase } from './base.js';
 class OtDropdown extends OtBase {
   #menu;
   #trigger;
-  #position;
   #items;
 
   init() {
@@ -28,29 +27,16 @@ class OtDropdown extends OtBase {
 
     this.#menu.addEventListener('toggle', this);
     this.#menu.addEventListener('keydown', this);
-
-    this.#position = () => {
-      // Position has to be calculated and applied manually because
-      // popover positioning is like fixed, relative to the window.
-      const r = this.#trigger.getBoundingClientRect();
-      const m = this.#menu.getBoundingClientRect();
-
-      // Flip if menu overflows viewport.
-      this.#menu.style.top = `${r.bottom + m.height > window.innerHeight ? r.top - m.height : r.bottom}px`;
-      this.#menu.style.left = `${r.left + m.width > window.innerWidth ? r.right - m.width : r.left}px`;
-    };
+    this.#menu.style.setProperty('position-anchor', this.#menu.id);
+    this.#trigger.style.setProperty('anchor-name', this.#menu.id);
   }
 
   ontoggle(e) {
     if (e.newState === 'open') {
-      this.#position();
-      window.addEventListener('scroll', this.#position, true);
-      window.addEventListener('resize', this.#position);
       this.#items = this.$$('[role="menuitem"]');
       this.#items[0]?.focus();
       this.#trigger.ariaExpanded = 'true';
     } else {
-      this.cleanup();
       this.#items = null;
       this.#trigger.ariaExpanded = 'false';
       this.#trigger.focus();
@@ -65,10 +51,6 @@ class OtDropdown extends OtBase {
     if (next >= 0) this.#items[next].focus();
   }
 
-  cleanup() {
-    window.removeEventListener('scroll', this.#position, true);
-    window.removeEventListener('resize', this.#position);
-  }
 }
 
 customElements.define('ot-dropdown', OtDropdown);

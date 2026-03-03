@@ -2,9 +2,10 @@
   ot-dropdown {
     [popover] {
       position: fixed;
-      margin: 0;
-      /* padding: var(--space-1); */
-      min-width: 12rem;
+      position-area: bottom span-right;
+      position-try-fallbacks: flip-block;
+      margin: 5px 0;
+      inset: auto;
       background-color: var(--background);
       border: 1px solid var(--border);
       border-radius: var(--radius-medium);
