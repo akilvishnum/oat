@@ -9,6 +9,7 @@
       box-shadow: var(--shadow-medium);
       opacity: 0;
       will-change: transform, opacity;
+      min-width: 12rem;
 
       &:popover-open {
         opacity: 1;
