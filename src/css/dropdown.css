@@ -10,6 +10,10 @@
       opacity: 0;
       will-change: transform, opacity;
       min-width: 12rem;
+      transition:
+        opacity 150ms ease-out,
+        display 150ms allow-discrete,
+        overlay 150ms allow-discrete;
 
       &:popover-open {
         opacity: 1;
